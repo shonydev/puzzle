@@ -37,7 +37,7 @@ jobs:
           import base64, json, re
           for p in [*Path("src").rglob("*.ts"), *Path("src").rglob("*.tsx")]:
               text = p.read_text()
-              match = re.search(r'//# sourceMappingURL=data:application/json;base64,([^\\s]+)', text)
+              match = re.search(r'//# sourceMappingURL=data:application/json;base64,([^\s]+)', text)
               if not match:
                   continue
               try:
@@ -70,8 +70,8 @@ jobs:
           import re
           p = Path("index.html")
           html = p.read_text()
-          html = re.sub(r'\\s*<script type="module" src="/@vite/client"></script>', '', html)
-          html = re.sub(r'<script src="/_aistudio-iframe\\.js[^"]*"></script>', '', html)
+          html = re.sub(r'\s*<script type="module" src="/@vite/client"></script>', '', html)
+          html = re.sub(r'<script src="/_aistudio-iframe\.js[^"]*"></script>', '', html)
           p.write_text(html)
           PY
           git config user.name "github-actions[bot]"
