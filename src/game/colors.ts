@@ -1,157 +1,170 @@
-export const WATER_COLORS = {
-	red: {
-		id: "red",
-		name: "Rojo Carmesí",
-		hex: "#EF4444",
-		surface: "#FCA5A5",
-		darkHex: "#B91C1C",
-		textColor: "#FFFFFF",
-		symbol: "♥",
-		symbolName: "Corazón"
-	},
-	blue: {
-		id: "blue",
-		name: "Azul Real",
-		hex: "#2563EB",
-		surface: "#93C5FD",
-		darkHex: "#1D4ED8",
-		textColor: "#FFFFFF",
-		symbol: "◆",
-		symbolName: "Diamante"
-	},
-	yellow: {
-		id: "yellow",
-		name: "Amarillo Dorado",
-		hex: "#EAB308",
-		surface: "#FEF08A",
-		darkHex: "#A16207",
-		textColor: "#1E293B",
-		symbol: "★",
-		symbolName: "Estrella"
-	},
-	emerald: {
-		id: "emerald",
-		name: "Verde Esmeralda",
-		hex: "#10B981",
-		surface: "#A7F3D0",
-		darkHex: "#047857",
-		textColor: "#FFFFFF",
-		symbol: "▲",
-		symbolName: "Triángulo"
-	},
-	purple: {
-		id: "purple",
-		name: "Violeta Eléctrico",
-		hex: "#8B5CF6",
-		surface: "#DDD6FE",
-		darkHex: "#6D28D9",
-		textColor: "#FFFFFF",
-		symbol: "✦",
-		symbolName: "Destello"
-	},
-	orange: {
-		id: "orange",
-		name: "Naranja Fuego",
-		hex: "#F97316",
-		surface: "#FDBA74",
-		darkHex: "#C2410C",
-		textColor: "#FFFFFF",
-		symbol: "●",
-		symbolName: "Círculo"
-	},
-	cyan: {
-		id: "cyan",
-		name: "Cian Turquesa",
-		hex: "#06B6D4",
-		surface: "#A5F3FC",
-		darkHex: "#0E7490",
-		textColor: "#FFFFFF",
-		symbol: "💧",
-		symbolName: "Gota"
-	},
-	pink: {
-		id: "pink",
-		name: "Rosa Fucsia",
-		hex: "#EC4899",
-		surface: "#FBCFE8",
-		darkHex: "#BE185D",
-		textColor: "#FFFFFF",
-		symbol: "✿",
-		symbolName: "Flor"
-	},
-	lime: {
-		id: "lime",
-		name: "Verde Lima",
-		hex: "#84CC16",
-		surface: "#D9F99D",
-		darkHex: "#4D7C0F",
-		textColor: "#1E293B",
-		symbol: "❖",
-		symbolName: "Cruz Rombo"
-	},
-	indigo: {
-		id: "indigo",
-		name: "Índigo Profundo",
-		hex: "#4F46E5",
-		surface: "#C7D2FE",
-		darkHex: "#3730A3",
-		textColor: "#FFFFFF",
-		symbol: "☾",
-		symbolName: "Luna"
-	},
-	teal: {
-		id: "teal",
-		name: "Verde Azulado",
-		hex: "#0D9488",
-		surface: "#99F6E4",
-		darkHex: "#115E59",
-		textColor: "#FFFFFF",
-		symbol: "⬢",
-		symbolName: "Hexágono"
-	},
-	amber: {
-		id: "amber",
-		name: "Ámbar Cálido",
-		hex: "#D97706",
-		surface: "#FDE68A",
-		darkHex: "#92400E",
-		textColor: "#FFFFFF",
-		symbol: "☀️",
-		symbolName: "Sol"
-	},
-	brown: {
-		id: "brown",
-		name: "Café Caramelo",
-		hex: "#78350F",
-		surface: "#D6D3D1",
-		darkHex: "#451A03",
-		textColor: "#FFFFFF",
-		symbol: "■",
-		symbolName: "Cuadrado"
-	},
-	slate: {
-		id: "slate",
-		name: "Gris Acero",
-		hex: "#64748B",
-		surface: "#CBD5E1",
-		darkHex: "#334155",
-		textColor: "#FFFFFF",
-		symbol: "✚",
-		symbolName: "Cruz"
-	}
-};
-export const COLOR_KEYS = Object.keys(WATER_COLORS);
-export function getColorDef(colorId) {
-	return WATER_COLORS[colorId] || {
-		id: colorId,
-		name: colorId,
-		hex: "#94A3B8",
-		surface: "#E2E8F0",
-		darkHex: "#475569",
-		textColor: "#FFFFFF",
-		symbol: "•",
-		symbolName: "Punto"
-	};
+export interface WaterColor {
+  id: string;
+  name: string;
+  hex: string;
+  surface: string;
+  darkHex: string;
+  textColor: string;
+  symbol: string;
+  symbolName: string;
 }
 
-//# sourceMappingURL=data:application/json;base64,eyJtYXBwaW5ncyI6IkFBV0EsT0FBTyxNQUFNLGVBQTJDO0NBQ3RELEtBQUs7RUFDSCxJQUFJO0VBQ0osTUFBTTtFQUNOLEtBQUs7RUFDTCxTQUFTO0VBQ1QsU0FBUztFQUNULFdBQVc7RUFDWCxRQUFRO0VBQ1IsWUFBWTtDQUNkO0NBQ0EsTUFBTTtFQUNKLElBQUk7RUFDSixNQUFNO0VBQ04sS0FBSztFQUNMLFNBQVM7RUFDVCxTQUFTO0VBQ1QsV0FBVztFQUNYLFFBQVE7RUFDUixZQUFZO0NBQ2Q7Q0FDQSxRQUFRO0VBQ04sSUFBSTtFQUNKLE1BQU07RUFDTixLQUFLO0VBQ0wsU0FBUztFQUNULFNBQVM7RUFDVCxXQUFXO0VBQ1gsUUFBUTtFQUNSLFlBQVk7Q0FDZDtDQUNBLFNBQVM7RUFDUCxJQUFJO0VBQ0osTUFBTTtFQUNOLEtBQUs7RUFDTCxTQUFTO0VBQ1QsU0FBUztFQUNULFdBQVc7RUFDWCxRQUFRO0VBQ1IsWUFBWTtDQUNkO0NBQ0EsUUFBUTtFQUNOLElBQUk7RUFDSixNQUFNO0VBQ04sS0FBSztFQUNMLFNBQVM7RUFDVCxTQUFTO0VBQ1QsV0FBVztFQUNYLFFBQVE7RUFDUixZQUFZO0NBQ2Q7Q0FDQSxRQUFRO0VBQ04sSUFBSTtFQUNKLE1BQU07RUFDTixLQUFLO0VBQ0wsU0FBUztFQUNULFNBQVM7RUFDVCxXQUFXO0VBQ1gsUUFBUTtFQUNSLFlBQVk7Q0FDZDtDQUNBLE1BQU07RUFDSixJQUFJO0VBQ0osTUFBTTtFQUNOLEtBQUs7RUFDTCxTQUFTO0VBQ1QsU0FBUztFQUNULFdBQVc7RUFDWCxRQUFRO0VBQ1IsWUFBWTtDQUNkO0NBQ0EsTUFBTTtFQUNKLElBQUk7RUFDSixNQUFNO0VBQ04sS0FBSztFQUNMLFNBQVM7RUFDVCxTQUFTO0VBQ1QsV0FBVztFQUNYLFFBQVE7RUFDUixZQUFZO0NBQ2Q7Q0FDQSxNQUFNO0VBQ0osSUFBSTtFQUNKLE1BQU07RUFDTixLQUFLO0VBQ0wsU0FBUztFQUNULFNBQVM7RUFDVCxXQUFXO0VBQ1gsUUFBUTtFQUNSLFlBQVk7Q0FDZDtDQUNBLFFBQVE7RUFDTixJQUFJO0VBQ0osTUFBTTtFQUNOLEtBQUs7RUFDTCxTQUFTO0VBQ1QsU0FBUztFQUNULFdBQVc7RUFDWCxRQUFRO0VBQ1IsWUFBWTtDQUNkO0NBQ0EsTUFBTTtFQUNKLElBQUk7RUFDSixNQUFNO0VBQ04sS0FBSztFQUNMLFNBQVM7RUFDVCxTQUFTO0VBQ1QsV0FBVztFQUNYLFFBQVE7RUFDUixZQUFZO0NBQ2Q7Q0FDQSxPQUFPO0VBQ0wsSUFBSTtFQUNKLE1BQU07RUFDTixLQUFLO0VBQ0wsU0FBUztFQUNULFNBQVM7RUFDVCxXQUFXO0VBQ1gsUUFBUTtFQUNSLFlBQVk7Q0FDZDtDQUNBLE9BQU87RUFDTCxJQUFJO0VBQ0osTUFBTTtFQUNOLEtBQUs7RUFDTCxTQUFTO0VBQ1QsU0FBUztFQUNULFdBQVc7RUFDWCxRQUFRO0VBQ1IsWUFBWTtDQUNkO0NBQ0EsT0FBTztFQUNMLElBQUk7RUFDSixNQUFNO0VBQ04sS0FBSztFQUNMLFNBQVM7RUFDVCxTQUFTO0VBQ1QsV0FBVztFQUNYLFFBQVE7RUFDUixZQUFZO0NBQ2Q7QUFDRjtBQUVBLE9BQU8sTUFBTSxhQUFhLE9BQU8sS0FBSyxZQUFZO0FBRWxELE9BQU8sU0FBUyxZQUFZLFNBQTZCO0NBQ3ZELE9BQ0UsYUFBYSxZQUFZO0VBQ3ZCLElBQUk7RUFDSixNQUFNO0VBQ04sS0FBSztFQUNMLFNBQVM7RUFDVCxTQUFTO0VBQ1QsV0FBVztFQUNYLFFBQVE7RUFDUixZQUFZO0NBQ2Q7QUFFSiIsIm5hbWVzIjpbXSwic291cmNlcyI6WyJjb2xvcnMudHMiXSwidmVyc2lvbiI6Mywic291cmNlc0NvbnRlbnQiOlsiZXhwb3J0IGludGVyZmFjZSBXYXRlckNvbG9yIHtcbiAgaWQ6IHN0cmluZztcbiAgbmFtZTogc3RyaW5nO1xuICBoZXg6IHN0cmluZztcbiAgc3VyZmFjZTogc3RyaW5nO1xuICBkYXJrSGV4OiBzdHJpbmc7XG4gIHRleHRDb2xvcjogc3RyaW5nO1xuICBzeW1ib2w6IHN0cmluZztcbiAgc3ltYm9sTmFtZTogc3RyaW5nO1xufVxuXG5leHBvcnQgY29uc3QgV0FURVJfQ09MT1JTOiBSZWNvcmQ8c3RyaW5nLCBXYXRlckNvbG9yPiA9IHtcbiAgcmVkOiB7XG4gICAgaWQ6ICdyZWQnLFxuICAgIG5hbWU6ICdSb2pvIENhcm1lc8OtJyxcbiAgICBoZXg6ICcjRUY0NDQ0JyxcbiAgICBzdXJmYWNlOiAnI0ZDQTVBNScsXG4gICAgZGFya0hleDogJyNCOTFDMUMnLFxuICAgIHRleHRDb2xvcjogJyNGRkZGRkYnLFxuICAgIHN5bWJvbDogJ+KZpScsXG4gICAgc3ltYm9sTmFtZTogJ0NvcmF6w7NuJyxcbiAgfSxcbiAgYmx1ZToge1xuICAgIGlkOiAnYmx1ZScsXG4gICAgbmFtZTogJ0F6dWwgUmVhbCcsXG4gICAgaGV4OiAnIzI1NjNFQicsXG4gICAgc3VyZmFjZTogJyM5M0M1RkQnLFxuICAgIGRhcmtIZXg6ICcjMUQ0RUQ4JyxcbiAgICB0ZXh0Q29sb3I6ICcjRkZGRkZGJyxcbiAgICBzeW1ib2w6ICfil4YnLFxuICAgIHN5bWJvbE5hbWU6ICdEaWFtYW50ZScsXG4gIH0sXG4gIHllbGxvdzoge1xuICAgIGlkOiAneWVsbG93JyxcbiAgICBuYW1lOiAnQW1hcmlsbG8gRG9yYWRvJyxcbiAgICBoZXg6ICcjRUFCMzA4JyxcbiAgICBzdXJmYWNlOiAnI0ZFRjA4QScsXG4gICAgZGFya0hleDogJyNBMTYyMDcnLFxuICAgIHRleHRDb2xvcjogJyMxRTI5M0InLFxuICAgIHN5bWJvbDogJ+KYhScsXG4gICAgc3ltYm9sTmFtZTogJ0VzdHJlbGxhJyxcbiAgfSxcbiAgZW1lcmFsZDoge1xuICAgIGlkOiAnZW1lcmFsZCcsXG4gICAgbmFtZTogJ1ZlcmRlIEVzbWVyYWxkYScsXG4gICAgaGV4OiAnIzEwQjk4MScsXG4gICAgc3VyZmFjZTogJyNBN0YzRDAnLFxuICAgIGRhcmtIZXg6ICcjMDQ3ODU3JyxcbiAgICB0ZXh0Q29sb3I6ICcjRkZGRkZGJyxcbiAgICBzeW1ib2w6ICfilrInLFxuICAgIHN5bWJvbE5hbWU6ICdUcmnDoW5ndWxvJyxcbiAgfSxcbiAgcHVycGxlOiB7XG4gICAgaWQ6ICdwdXJwbGUnLFxuICAgIG5hbWU6ICdWaW9sZXRhIEVsw6ljdHJpY28nLFxuICAgIGhleDogJyM4QjVDRjYnLFxuICAgIHN1cmZhY2U6ICcjRERENkZFJyxcbiAgICBkYXJrSGV4OiAnIzZEMjhEOScsXG4gICAgdGV4dENvbG9yOiAnI0ZGRkZGRicsXG4gICAgc3ltYm9sOiAn4pymJyxcbiAgICBzeW1ib2xOYW1lOiAnRGVzdGVsbG8nLFxuICB9LFxuICBvcmFuZ2U6IHtcbiAgICBpZDogJ29yYW5nZScsXG4gICAgbmFtZTogJ05hcmFuamEgRnVlZ28nLFxuICAgIGhleDogJyNGOTczMTYnLFxuICAgIHN1cmZhY2U6ICcjRkRCQTc0JyxcbiAgICBkYXJrSGV4OiAnI0MyNDEwQycsXG4gICAgdGV4dENvbG9yOiAnI0ZGRkZGRicsXG4gICAgc3ltYm9sOiAn4pePJyxcbiAgICBzeW1ib2xOYW1lOiAnQ8OtcmN1bG8nLFxuICB9LFxuICBjeWFuOiB7XG4gICAgaWQ6ICdjeWFuJyxcbiAgICBuYW1lOiAnQ2lhbiBUdXJxdWVzYScsXG4gICAgaGV4OiAnIzA2QjZENCcsXG4gICAgc3VyZmFjZTogJyNBNUYzRkMnLFxuICAgIGRhcmtIZXg6ICcjMEU3NDkwJyxcbiAgICB0ZXh0Q29sb3I6ICcjRkZGRkZGJyxcbiAgICBzeW1ib2w6ICfwn5KnJyxcbiAgICBzeW1ib2xOYW1lOiAnR290YScsXG4gIH0sXG4gIHBpbms6IHtcbiAgICBpZDogJ3BpbmsnLFxuICAgIG5hbWU6ICdSb3NhIEZ1Y3NpYScsXG4gICAgaGV4OiAnI0VDNDg5OScsXG4gICAgc3VyZmFjZTogJyNGQkNGRTgnLFxuICAgIGRhcmtIZXg6ICcjQkUxODVEJyxcbiAgICB0ZXh0Q29sb3I6ICcjRkZGRkZGJyxcbiAgICBzeW1ib2w6ICfinL8nLFxuICAgIHN5bWJvbE5hbWU6ICdGbG9yJyxcbiAgfSxcbiAgbGltZToge1xuICAgIGlkOiAnbGltZScsXG4gICAgbmFtZTogJ1ZlcmRlIExpbWEnLFxuICAgIGhleDogJyM4NENDMTYnLFxuICAgIHN1cmZhY2U6ICcjRDlGOTlEJyxcbiAgICBkYXJrSGV4OiAnIzREN0MwRicsXG4gICAgdGV4dENvbG9yOiAnIzFFMjkzQicsXG4gICAgc3ltYm9sOiAn4p2WJyxcbiAgICBzeW1ib2xOYW1lOiAnQ3J1eiBSb21ibycsXG4gIH0sXG4gIGluZGlnbzoge1xuICAgIGlkOiAnaW5kaWdvJyxcbiAgICBuYW1lOiAnw41uZGlnbyBQcm9mdW5kbycsXG4gICAgaGV4OiAnIzRGNDZFNScsXG4gICAgc3VyZmFjZTogJyNDN0QyRkUnLFxuICAgIGRhcmtIZXg6ICcjMzczMEEzJyxcbiAgICB0ZXh0Q29sb3I6ICcjRkZGRkZGJyxcbiAgICBzeW1ib2w6ICfimL4nLFxuICAgIHN5bWJvbE5hbWU6ICdMdW5hJyxcbiAgfSxcbiAgdGVhbDoge1xuICAgIGlkOiAndGVhbCcsXG4gICAgbmFtZTogJ1ZlcmRlIEF6dWxhZG8nLFxuICAgIGhleDogJyMwRDk0ODgnLFxuICAgIHN1cmZhY2U6ICcjOTlGNkU0JyxcbiAgICBkYXJrSGV4OiAnIzExNUU1OScsXG4gICAgdGV4dENvbG9yOiAnI0ZGRkZGRicsXG4gICAgc3ltYm9sOiAn4qyiJyxcbiAgICBzeW1ib2xOYW1lOiAnSGV4w6Fnb25vJyxcbiAgfSxcbiAgYW1iZXI6IHtcbiAgICBpZDogJ2FtYmVyJyxcbiAgICBuYW1lOiAnw4FtYmFyIEPDoWxpZG8nLFxuICAgIGhleDogJyNEOTc3MDYnLFxuICAgIHN1cmZhY2U6ICcjRkRFNjhBJyxcbiAgICBkYXJrSGV4OiAnIzkyNDAwRScsXG4gICAgdGV4dENvbG9yOiAnI0ZGRkZGRicsXG4gICAgc3ltYm9sOiAn4piA77iPJyxcbiAgICBzeW1ib2xOYW1lOiAnU29sJyxcbiAgfSxcbiAgYnJvd246IHtcbiAgICBpZDogJ2Jyb3duJyxcbiAgICBuYW1lOiAnQ2Fmw6kgQ2FyYW1lbG8nLFxuICAgIGhleDogJyM3ODM1MEYnLFxuICAgIHN1cmZhY2U6ICcjRDZEM0QxJyxcbiAgICBkYXJrSGV4OiAnIzQ1MUEwMycsXG4gICAgdGV4dENvbG9yOiAnI0ZGRkZGRicsXG4gICAgc3ltYm9sOiAn4pagJyxcbiAgICBzeW1ib2xOYW1lOiAnQ3VhZHJhZG8nLFxuICB9LFxuICBzbGF0ZToge1xuICAgIGlkOiAnc2xhdGUnLFxuICAgIG5hbWU6ICdHcmlzIEFjZXJvJyxcbiAgICBoZXg6ICcjNjQ3NDhCJyxcbiAgICBzdXJmYWNlOiAnI0NCRDVFMScsXG4gICAgZGFya0hleDogJyMzMzQxNTUnLFxuICAgIHRleHRDb2xvcjogJyNGRkZGRkYnLFxuICAgIHN5bWJvbDogJ+KcmicsXG4gICAgc3ltYm9sTmFtZTogJ0NydXonLFxuICB9LFxufTtcblxuZXhwb3J0IGNvbnN0IENPTE9SX0tFWVMgPSBPYmplY3Qua2V5cyhXQVRFUl9DT0xPUlMpO1xuXG5leHBvcnQgZnVuY3Rpb24gZ2V0Q29sb3JEZWYoY29sb3JJZDogc3RyaW5nKTogV2F0ZXJDb2xvciB7XG4gIHJldHVybiAoXG4gICAgV0FURVJfQ09MT1JTW2NvbG9ySWRdIHx8IHtcbiAgICAgIGlkOiBjb2xvcklkLFxuICAgICAgbmFtZTogY29sb3JJZCxcbiAgICAgIGhleDogJyM5NEEzQjgnLFxuICAgICAgc3VyZmFjZTogJyNFMkU4RjAnLFxuICAgICAgZGFya0hleDogJyM0NzU1NjknLFxuICAgICAgdGV4dENvbG9yOiAnI0ZGRkZGRicsXG4gICAgICBzeW1ib2w6ICfigKInLFxuICAgICAgc3ltYm9sTmFtZTogJ1B1bnRvJyxcbiAgICB9XG4gICk7XG59XG4iXX0=
+export const WATER_COLORS: Record<string, WaterColor> = {
+  red: {
+    id: 'red',
+    name: 'Rojo Carmesí',
+    hex: '#EF4444',
+    surface: '#FCA5A5',
+    darkHex: '#B91C1C',
+    textColor: '#FFFFFF',
+    symbol: '♥',
+    symbolName: 'Corazón',
+  },
+  blue: {
+    id: 'blue',
+    name: 'Azul Real',
+    hex: '#2563EB',
+    surface: '#93C5FD',
+    darkHex: '#1D4ED8',
+    textColor: '#FFFFFF',
+    symbol: '◆',
+    symbolName: 'Diamante',
+  },
+  yellow: {
+    id: 'yellow',
+    name: 'Amarillo Dorado',
+    hex: '#EAB308',
+    surface: '#FEF08A',
+    darkHex: '#A16207',
+    textColor: '#1E293B',
+    symbol: '★',
+    symbolName: 'Estrella',
+  },
+  emerald: {
+    id: 'emerald',
+    name: 'Verde Esmeralda',
+    hex: '#10B981',
+    surface: '#A7F3D0',
+    darkHex: '#047857',
+    textColor: '#FFFFFF',
+    symbol: '▲',
+    symbolName: 'Triángulo',
+  },
+  purple: {
+    id: 'purple',
+    name: 'Violeta Eléctrico',
+    hex: '#8B5CF6',
+    surface: '#DDD6FE',
+    darkHex: '#6D28D9',
+    textColor: '#FFFFFF',
+    symbol: '✦',
+    symbolName: 'Destello',
+  },
+  orange: {
+    id: 'orange',
+    name: 'Naranja Fuego',
+    hex: '#F97316',
+    surface: '#FDBA74',
+    darkHex: '#C2410C',
+    textColor: '#FFFFFF',
+    symbol: '●',
+    symbolName: 'Círculo',
+  },
+  cyan: {
+    id: 'cyan',
+    name: 'Cian Turquesa',
+    hex: '#06B6D4',
+    surface: '#A5F3FC',
+    darkHex: '#0E7490',
+    textColor: '#FFFFFF',
+    symbol: '💧',
+    symbolName: 'Gota',
+  },
+  pink: {
+    id: 'pink',
+    name: 'Rosa Fucsia',
+    hex: '#EC4899',
+    surface: '#FBCFE8',
+    darkHex: '#BE185D',
+    textColor: '#FFFFFF',
+    symbol: '✿',
+    symbolName: 'Flor',
+  },
+  lime: {
+    id: 'lime',
+    name: 'Verde Lima',
+    hex: '#84CC16',
+    surface: '#D9F99D',
+    darkHex: '#4D7C0F',
+    textColor: '#1E293B',
+    symbol: '❖',
+    symbolName: 'Cruz Rombo',
+  },
+  indigo: {
+    id: 'indigo',
+    name: 'Índigo Profundo',
+    hex: '#4F46E5',
+    surface: '#C7D2FE',
+    darkHex: '#3730A3',
+    textColor: '#FFFFFF',
+    symbol: '☾',
+    symbolName: 'Luna',
+  },
+  teal: {
+    id: 'teal',
+    name: 'Verde Azulado',
+    hex: '#0D9488',
+    surface: '#99F6E4',
+    darkHex: '#115E59',
+    textColor: '#FFFFFF',
+    symbol: '⬢',
+    symbolName: 'Hexágono',
+  },
+  amber: {
+    id: 'amber',
+    name: 'Ámbar Cálido',
+    hex: '#D97706',
+    surface: '#FDE68A',
+    darkHex: '#92400E',
+    textColor: '#FFFFFF',
+    symbol: '☀️',
+    symbolName: 'Sol',
+  },
+  brown: {
+    id: 'brown',
+    name: 'Café Caramelo',
+    hex: '#78350F',
+    surface: '#D6D3D1',
+    darkHex: '#451A03',
+    textColor: '#FFFFFF',
+    symbol: '■',
+    symbolName: 'Cuadrado',
+  },
+  slate: {
+    id: 'slate',
+    name: 'Gris Acero',
+    hex: '#64748B',
+    surface: '#CBD5E1',
+    darkHex: '#334155',
+    textColor: '#FFFFFF',
+    symbol: '✚',
+    symbolName: 'Cruz',
+  },
+};
+
+export const COLOR_KEYS = Object.keys(WATER_COLORS);
+
+export function getColorDef(colorId: string): WaterColor {
+  return (
+    WATER_COLORS[colorId] || {
+      id: colorId,
+      name: colorId,
+      hex: '#94A3B8',
+      surface: '#E2E8F0',
+      darkHex: '#475569',
+      textColor: '#FFFFFF',
+      symbol: '•',
+      symbolName: 'Punto',
+    }
+  );
+}

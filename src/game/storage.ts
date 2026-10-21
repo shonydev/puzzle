@@ -1,67 +1,91 @@
-const STORAGE_KEY = "aquasort_progress_v1";
-const DEFAULT_PROGRESS = {
-	highestUnlockedLevel: 1,
-	completedLevels: {},
-	soundEnabled: true,
-	symbolMode: false,
-	flaskStyle: "test-tube",
-	totalStars: 0
-};
-export function loadUserProgress() {
-	if (typeof window === "undefined") return DEFAULT_PROGRESS;
-	try {
-		const raw = localStorage.getItem(STORAGE_KEY);
-		if (!raw) return DEFAULT_PROGRESS;
-		const parsed = JSON.parse(raw);
-		return {
-			...DEFAULT_PROGRESS,
-			...parsed
-		};
-	} catch {
-		return DEFAULT_PROGRESS;
-	}
-}
-export function saveUserProgress(progress) {
-	if (typeof window === "undefined") return;
-	try {
-		localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
-	} catch (err) {
-		console.error("Error saving progress", err);
-	}
-}
-export function recordLevelVictory(levelId, moves, targetMoves) {
-	const progress = loadUserProgress();
-	// Star calculation
-	let stars = 1;
-	if (moves <= targetMoves) {
-		stars = 3;
-	} else if (moves <= Math.floor(targetMoves * 1.5)) {
-		stars = 2;
-	}
-	const existing = progress.completedLevels[levelId];
-	const bestMoves = existing ? Math.min(existing.bestMoves, moves) : moves;
-	const bestStars = existing ? Math.max(existing.stars, stars) : stars;
-	progress.completedLevels[levelId] = {
-		completed: true,
-		stars: bestStars,
-		bestMoves
-	};
-	let isNewUnlock = false;
-	if (levelId === progress.highestUnlockedLevel && levelId < 100) {
-		progress.highestUnlockedLevel = levelId + 1;
-		isNewUnlock = true;
-	}
-	// Recalculate total stars
-	let totalStars = 0;
-	Object.values(progress.completedLevels).forEach((lvl) => {
-		totalStars += lvl.stars || 0;
-	});
-	progress.totalStars = totalStars;
-	saveUserProgress(progress);
-	return {
-		isNewUnlock,
-		stars
-	};
+export interface LevelProgress {
+  completed: boolean;
+  stars: number;
+  bestMoves: number;
 }
 
-//# sourceMappingURL=data:application/json;base64,eyJtYXBwaW5ncyI6IkFBZUEsTUFBTSxjQUFjO0FBRXBCLE1BQU0sbUJBQWlDO0NBQ3JDLHNCQUFzQjtDQUN0QixpQkFBaUIsQ0FBQztDQUNsQixjQUFjO0NBQ2QsWUFBWTtDQUNaLFlBQVk7Q0FDWixZQUFZO0FBQ2Q7QUFFQSxPQUFPLFNBQVMsbUJBQWlDO0NBQy9DLElBQUksT0FBTyxXQUFXLGFBQWEsT0FBTztDQUMxQyxJQUFJO0VBQ0YsTUFBTSxNQUFNLGFBQWEsUUFBUSxXQUFXO0VBQzVDLElBQUksQ0FBQyxLQUFLLE9BQU87RUFDakIsTUFBTSxTQUFTLEtBQUssTUFBTSxHQUFHO0VBQzdCLE9BQU87R0FDTCxHQUFHO0dBQ0gsR0FBRztFQUNMO0NBQ0YsUUFBUTtFQUNOLE9BQU87Q0FDVDtBQUNGO0FBRUEsT0FBTyxTQUFTLGlCQUFpQixVQUE4QjtDQUM3RCxJQUFJLE9BQU8sV0FBVyxhQUFhO0NBQ25DLElBQUk7RUFDRixhQUFhLFFBQVEsYUFBYSxLQUFLLFVBQVUsUUFBUSxDQUFDO0NBQzVELFNBQVMsS0FBSztFQUNaLFFBQVEsTUFBTSx5QkFBeUIsR0FBRztDQUM1QztBQUNGO0FBRUEsT0FBTyxTQUFTLG1CQUNkLFNBQ0EsT0FDQSxhQUN5QztDQUN6QyxNQUFNLFdBQVcsaUJBQWlCOztDQUdsQyxJQUFJLFFBQVE7Q0FDWixJQUFJLFNBQVMsYUFBYTtFQUN4QixRQUFRO0NBQ1YsT0FBTyxJQUFJLFNBQVMsS0FBSyxNQUFNLGNBQWMsR0FBRyxHQUFHO0VBQ2pELFFBQVE7Q0FDVjtDQUVBLE1BQU0sV0FBVyxTQUFTLGdCQUFnQjtDQUMxQyxNQUFNLFlBQVksV0FBVyxLQUFLLElBQUksU0FBUyxXQUFXLEtBQUssSUFBSTtDQUNuRSxNQUFNLFlBQVksV0FBVyxLQUFLLElBQUksU0FBUyxPQUFPLEtBQUssSUFBSTtDQUUvRCxTQUFTLGdCQUFnQixXQUFXO0VBQ2xDLFdBQVc7RUFDWCxPQUFPO0VBQ1A7Q0FDRjtDQUVBLElBQUksY0FBYztDQUNsQixJQUFJLFlBQVksU0FBUyx3QkFBd0IsVUFBVSxLQUFLO0VBQzlELFNBQVMsdUJBQXVCLFVBQVU7RUFDMUMsY0FBYztDQUNoQjs7Q0FHQSxJQUFJLGFBQWE7Q0FDakIsT0FBTyxPQUFPLFNBQVMsZUFBZSxDQUFDLENBQUMsU0FBUyxRQUFRO0VBQ3ZELGNBQWMsSUFBSSxTQUFTO0NBQzdCLENBQUM7Q0FDRCxTQUFTLGFBQWE7Q0FFdEIsaUJBQWlCLFFBQVE7Q0FDekIsT0FBTztFQUFFO0VBQWE7Q0FBTTtBQUM5QiIsIm5hbWVzIjpbXSwic291cmNlcyI6WyJzdG9yYWdlLnRzIl0sInZlcnNpb24iOjMsInNvdXJjZXNDb250ZW50IjpbImV4cG9ydCBpbnRlcmZhY2UgTGV2ZWxQcm9ncmVzcyB7XG4gIGNvbXBsZXRlZDogYm9vbGVhbjtcbiAgc3RhcnM6IG51bWJlcjtcbiAgYmVzdE1vdmVzOiBudW1iZXI7XG59XG5cbmV4cG9ydCBpbnRlcmZhY2UgVXNlclByb2dyZXNzIHtcbiAgaGlnaGVzdFVubG9ja2VkTGV2ZWw6IG51bWJlcjtcbiAgY29tcGxldGVkTGV2ZWxzOiBSZWNvcmQ8bnVtYmVyLCBMZXZlbFByb2dyZXNzPjtcbiAgc291bmRFbmFibGVkOiBib29sZWFuO1xuICBzeW1ib2xNb2RlOiBib29sZWFuOyAvLyBBY2Nlc3NpYmxlIGNvbG9yLWJsaW5kIHN5bWJvbHMgb24gbGlxdWlkXG4gIGZsYXNrU3R5bGU6ICd0ZXN0LXR1YmUnIHwgJ2VybGVubWV5ZXInIHwgJ2N5bGluZGVyJztcbiAgdG90YWxTdGFyczogbnVtYmVyO1xufVxuXG5jb25zdCBTVE9SQUdFX0tFWSA9ICdhcXVhc29ydF9wcm9ncmVzc192MSc7XG5cbmNvbnN0IERFRkFVTFRfUFJPR1JFU1M6IFVzZXJQcm9ncmVzcyA9IHtcbiAgaGlnaGVzdFVubG9ja2VkTGV2ZWw6IDEsXG4gIGNvbXBsZXRlZExldmVsczoge30sXG4gIHNvdW5kRW5hYmxlZDogdHJ1ZSxcbiAgc3ltYm9sTW9kZTogZmFsc2UsXG4gIGZsYXNrU3R5bGU6ICd0ZXN0LXR1YmUnLFxuICB0b3RhbFN0YXJzOiAwLFxufTtcblxuZXhwb3J0IGZ1bmN0aW9uIGxvYWRVc2VyUHJvZ3Jlc3MoKTogVXNlclByb2dyZXNzIHtcbiAgaWYgKHR5cGVvZiB3aW5kb3cgPT09ICd1bmRlZmluZWQnKSByZXR1cm4gREVGQVVMVF9QUk9HUkVTUztcbiAgdHJ5IHtcbiAgICBjb25zdCByYXcgPSBsb2NhbFN0b3JhZ2UuZ2V0SXRlbShTVE9SQUdFX0tFWSk7XG4gICAgaWYgKCFyYXcpIHJldHVybiBERUZBVUxUX1BST0dSRVNTO1xuICAgIGNvbnN0IHBhcnNlZCA9IEpTT04ucGFyc2UocmF3KTtcbiAgICByZXR1cm4ge1xuICAgICAgLi4uREVGQVVMVF9QUk9HUkVTUyxcbiAgICAgIC4uLnBhcnNlZCxcbiAgICB9O1xuICB9IGNhdGNoIHtcbiAgICByZXR1cm4gREVGQVVMVF9QUk9HUkVTUztcbiAgfVxufVxuXG5leHBvcnQgZnVuY3Rpb24gc2F2ZVVzZXJQcm9ncmVzcyhwcm9ncmVzczogVXNlclByb2dyZXNzKTogdm9pZCB7XG4gIGlmICh0eXBlb2Ygd2luZG93ID09PSAndW5kZWZpbmVkJykgcmV0dXJuO1xuICB0cnkge1xuICAgIGxvY2FsU3RvcmFnZS5zZXRJdGVtKFNUT1JBR0VfS0VZLCBKU09OLnN0cmluZ2lmeShwcm9ncmVzcykpO1xuICB9IGNhdGNoIChlcnIpIHtcbiAgICBjb25zb2xlLmVycm9yKCdFcnJvciBzYXZpbmcgcHJvZ3Jlc3MnLCBlcnIpO1xuICB9XG59XG5cbmV4cG9ydCBmdW5jdGlvbiByZWNvcmRMZXZlbFZpY3RvcnkoXG4gIGxldmVsSWQ6IG51bWJlcixcbiAgbW92ZXM6IG51bWJlcixcbiAgdGFyZ2V0TW92ZXM6IG51bWJlclxuKTogeyBpc05ld1VubG9jazogYm9vbGVhbjsgc3RhcnM6IG51bWJlciB9IHtcbiAgY29uc3QgcHJvZ3Jlc3MgPSBsb2FkVXNlclByb2dyZXNzKCk7XG5cbiAgLy8gU3RhciBjYWxjdWxhdGlvblxuICBsZXQgc3RhcnMgPSAxO1xuICBpZiAobW92ZXMgPD0gdGFyZ2V0TW92ZXMpIHtcbiAgICBzdGFycyA9IDM7XG4gIH0gZWxzZSBpZiAobW92ZXMgPD0gTWF0aC5mbG9vcih0YXJnZXRNb3ZlcyAqIDEuNSkpIHtcbiAgICBzdGFycyA9IDI7XG4gIH1cblxuICBjb25zdCBleGlzdGluZyA9IHByb2dyZXNzLmNvbXBsZXRlZExldmVsc1tsZXZlbElkXTtcbiAgY29uc3QgYmVzdE1vdmVzID0gZXhpc3RpbmcgPyBNYXRoLm1pbihleGlzdGluZy5iZXN0TW92ZXMsIG1vdmVzKSA6IG1vdmVzO1xuICBjb25zdCBiZXN0U3RhcnMgPSBleGlzdGluZyA/IE1hdGgubWF4KGV4aXN0aW5nLnN0YXJzLCBzdGFycykgOiBzdGFycztcblxuICBwcm9ncmVzcy5jb21wbGV0ZWRMZXZlbHNbbGV2ZWxJZF0gPSB7XG4gICAgY29tcGxldGVkOiB0cnVlLFxuICAgIHN0YXJzOiBiZXN0U3RhcnMsXG4gICAgYmVzdE1vdmVzLFxuICB9O1xuXG4gIGxldCBpc05ld1VubG9jayA9IGZhbHNlO1xuICBpZiAobGV2ZWxJZCA9PT0gcHJvZ3Jlc3MuaGlnaGVzdFVubG9ja2VkTGV2ZWwgJiYgbGV2ZWxJZCA8IDEwMCkge1xuICAgIHByb2dyZXNzLmhpZ2hlc3RVbmxvY2tlZExldmVsID0gbGV2ZWxJZCArIDE7XG4gICAgaXNOZXdVbmxvY2sgPSB0cnVlO1xuICB9XG5cbiAgLy8gUmVjYWxjdWxhdGUgdG90YWwgc3RhcnNcbiAgbGV0IHRvdGFsU3RhcnMgPSAwO1xuICBPYmplY3QudmFsdWVzKHByb2dyZXNzLmNvbXBsZXRlZExldmVscykuZm9yRWFjaCgobHZsKSA9PiB7XG4gICAgdG90YWxTdGFycyArPSBsdmwuc3RhcnMgfHwgMDtcbiAgfSk7XG4gIHByb2dyZXNzLnRvdGFsU3RhcnMgPSB0b3RhbFN0YXJzO1xuXG4gIHNhdmVVc2VyUHJvZ3Jlc3MocHJvZ3Jlc3MpO1xuICByZXR1cm4geyBpc05ld1VubG9jaywgc3RhcnMgfTtcbn1cbiJdfQ==
+export interface UserProgress {
+  highestUnlockedLevel: number;
+  completedLevels: Record<number, LevelProgress>;
+  soundEnabled: boolean;
+  symbolMode: boolean; // Accessible color-blind symbols on liquid
+  flaskStyle: 'test-tube' | 'erlenmeyer' | 'cylinder';
+  totalStars: number;
+}
+
+const STORAGE_KEY = 'aquasort_progress_v1';
+
+const DEFAULT_PROGRESS: UserProgress = {
+  highestUnlockedLevel: 1,
+  completedLevels: {},
+  soundEnabled: true,
+  symbolMode: false,
+  flaskStyle: 'test-tube',
+  totalStars: 0,
+};
+
+export function loadUserProgress(): UserProgress {
+  if (typeof window === 'undefined') return DEFAULT_PROGRESS;
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return DEFAULT_PROGRESS;
+    const parsed = JSON.parse(raw);
+    return {
+      ...DEFAULT_PROGRESS,
+      ...parsed,
+    };
+  } catch {
+    return DEFAULT_PROGRESS;
+  }
+}
+
+export function saveUserProgress(progress: UserProgress): void {
+  if (typeof window === 'undefined') return;
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
+  } catch (err) {
+    console.error('Error saving progress', err);
+  }
+}
+
+export function recordLevelVictory(
+  levelId: number,
+  moves: number,
+  targetMoves: number
+): { isNewUnlock: boolean; stars: number } {
+  const progress = loadUserProgress();
+
+  // Star calculation
+  let stars = 1;
+  if (moves <= targetMoves) {
+    stars = 3;
+  } else if (moves <= Math.floor(targetMoves * 1.5)) {
+    stars = 2;
+  }
+
+  const existing = progress.completedLevels[levelId];
+  const bestMoves = existing ? Math.min(existing.bestMoves, moves) : moves;
+  const bestStars = existing ? Math.max(existing.stars, stars) : stars;
+
+  progress.completedLevels[levelId] = {
+    completed: true,
+    stars: bestStars,
+    bestMoves,
+  };
+
+  let isNewUnlock = false;
+  if (levelId === progress.highestUnlockedLevel && levelId < 100) {
+    progress.highestUnlockedLevel = levelId + 1;
+    isNewUnlock = true;
+  }
+
+  // Recalculate total stars
+  let totalStars = 0;
+  Object.values(progress.completedLevels).forEach((lvl) => {
+    totalStars += lvl.stars || 0;
+  });
+  progress.totalStars = totalStars;
+
+  saveUserProgress(progress);
+  return { isNewUnlock, stars };
+}
