@@ -28,8 +28,27 @@ jobs:
 
       - name: Extract project into repository root
         run: |
-          unzip -oq aquasort-water-puzzle.zip -d .
-          rm -f aquasort-water-puzzle.zip
+          if [ -f aquasort-water-puzzle.zip ]; then
+            unzip -oq aquasort-water-puzzle.zip -d .
+            rm -f aquasort-water-puzzle.zip
+          fi
+          python3 - <<'PY'
+          from pathlib import Path
+          import base64, json, re
+          for p in [*Path("src").rglob("*.ts"), *Path("src").rglob("*.tsx")]:
+              text = p.read_text()
+              match = re.search(r'//# sourceMappingURL=data:application/json;base64,([^\\s]+)', text)
+              if not match:
+                  continue
+              try:
+                  source_map = json.loads(base64.b64decode(match.group(1)))
+                  sources = source_map.get("sourcesContent") or []
+                  if sources and sources[0]:
+                      p.write_text(sources[0])
+                      print(f"Restored original source: {p}")
+              except Exception as exc:
+                  print(f"Could not restore {p}: {exc}")
+          PY
           cat > vite.config.ts <<'EOF'
           import tailwindcss from '@tailwindcss/vite';
           import react from '@vitejs/plugin-react';
