@@ -1,0 +1,26 @@
+{
+  "id": "/",
+  "name": "AquaSort - Water Color Puzzle",
+  "short_name": "AquaSort",
+  "description": "Desafiante juego de clasificación de agua con 100 niveles y colores distingibles.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0f172a",
+  "theme_color": "#0284c7",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "name": "AquaSort - Water Color Puzzle",
+  "description": "Desafiante juego de clasificación de agua con múltiples niveles, colores de alto contraste y modos accesibles.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
