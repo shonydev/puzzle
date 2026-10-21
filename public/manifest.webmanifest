@@ -1,0 +1,28 @@
+{
+  "id": "/puzzle/",
+  "name": "AquaSort — Water Color Puzzle",
+  "short_name": "AquaSort",
+  "description": "Desafiante juego de clasificación de agua con múltiples niveles y modos accesibles.",
+  "lang": "es",
+  "start_url": "/puzzle/",
+  "scope": "/puzzle/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#071525",
+  "theme_color": "#0284c7",
+  "categories": ["games", "entertainment"],
+  "icons": [
+    {
+      "src": "/puzzle/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/puzzle/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ]
+}
