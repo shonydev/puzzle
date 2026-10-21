@@ -48,16 +48,24 @@ jobs:
                       print(f"Restored original source: {p}")
               except Exception as exc:
                   print(f"Could not restore {p}: {exc}")
+          # The uploaded CSS was captured from Vite's dev server. Unwrap its
+          # embedded stylesheet so it can be consumed as regular production CSS.
+          css_path = Path("src/index.css")
+          if css_path.exists():
+              css_text = css_path.read_text()
+              css_match = re.search(r'const __vite__css = ("(?:\\\\.|[^"\\\\])*")', css_text, re.S)
+              if css_match:
+                  css_path.write_text(json.loads(css_match.group(1)))
+                  print("Unwrapped Vite-generated CSS: src/index.css")
           PY
           cat > vite.config.ts <<'EOF'
-          import tailwindcss from '@tailwindcss/vite';
           import react from '@vitejs/plugin-react';
           import { fileURLToPath } from 'node:url';
           import { defineConfig } from 'vite';
 
           export default defineConfig({
             base: '/puzzle/',
-            plugins: [react(), tailwindcss()],
+            plugins: [react()],
             resolve: {
               alias: {
                 '@': fileURLToPath(new URL('.', import.meta.url)),
