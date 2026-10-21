@@ -3,13 +3,10 @@ name: Build and deploy AquaSort to GitHub Pages
 on:
   push:
     branches: [main]
-    paths:
-      - "aquasort-water-puzzle.zip"
-      - ".github/workflows/deploy-pages.yml"
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 concurrency:
   group: github-pages
@@ -19,7 +16,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: write
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -29,19 +26,15 @@ jobs:
         with:
           node-version: 22
 
-      - name: Extract project source
+      - name: Extract project into repository root
         run: |
-          mkdir app
-          unzip -q aquasort-water-puzzle.zip -d app
-
-      - name: Repair Vite config for production build
-        working-directory: app
-        run: |
+          unzip -oq aquasort-water-puzzle.zip -d .
+          rm -f aquasort-water-puzzle.zip
           cat > vite.config.ts <<'EOF'
           import tailwindcss from '@tailwindcss/vite';
           import react from '@vitejs/plugin-react';
-          import { defineConfig } from 'vite';
           import { fileURLToPath } from 'node:url';
+          import { defineConfig } from 'vite';
 
           export default defineConfig({
             base: '/puzzle/',
@@ -53,19 +46,26 @@ jobs:
             },
           });
           EOF
+          sed -i '\|<script type="module" src="/@vite/client"></script>|d' index.html
+          sed -i '\|<script src="/_aistudio-iframe.js|d' index.html
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if ! git diff --cached --quiet; then
+            git commit -m "Extract AquaSort source into repository root"
+            git push
+          fi
 
       - name: Install dependencies
-        working-directory: app
         run: npm install --no-audit --no-fund
 
       - name: Build site
-        working-directory: app
         run: npm run build
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: app/dist
+          path: dist
 
   deploy:
     environment:
