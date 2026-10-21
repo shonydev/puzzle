@@ -46,8 +46,15 @@ jobs:
             },
           });
           EOF
-          sed -i '\|<script type="module" src="/@vite/client"></script>|d' index.html
-          sed -i '\|<script src="/_aistudio-iframe.js|d' index.html
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          p = Path("index.html")
+          html = p.read_text()
+          html = re.sub(r'\\s*<script type="module" src="/@vite/client"></script>', '', html)
+          html = re.sub(r'<script src="/_aistudio-iframe\\.js[^"]*"></script>', '', html)
+          p.write_text(html)
+          PY
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A
