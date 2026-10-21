@@ -1,10 +1,18 @@
-# AquaSort - Water Color Puzzle
+# AquaSort — Water Color Puzzle
 
-Juego de rompecabezas de clasificación de agua con 100 niveles y colores distingibles.
+Juego de rompecabezas de clasificación de agua con 100 niveles.
 
-## Instalación y ejecución local:
+## 🎮 Probar el juego
+
+**[Jugar AquaSort online](https://shonydev.github.io/puzzle/)**
+
+Puedes abrirlo desde el navegador del móvil o del ordenador. En iPhone, abre el enlace con Safari y usa **Compartir → Añadir a pantalla de inicio** para instalarlo como una app.
+
+## Ejecutar localmente
+
 ```bash
 npm install
 npm run dev
 ```
-Abre http://localhost:3000 en tu navegador.
+
+Vite mostrará en la terminal la dirección local donde puedes abrir el juego.
