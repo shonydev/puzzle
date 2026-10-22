@@ -2509,3 +2509,53 @@ html, body, #root {
     height: clamp(96px, 17dvh, 132px);
   }
 }
+
+
+/* Final board layout: center the complete group, never distribute rows to the edges. */
+.game-main {
+  justify-content: center !important;
+}
+.game-play-area--two-rows {
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: center !important;
+  align-content: center !important;
+  gap: 20px !important;
+  padding: 20px 0 !important;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+.game-play-area--two-rows .tube-row {
+  flex: 0 0 auto !important;
+  justify-content: center !important;
+  align-items: center !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  padding-top: 0 !important;
+}
+.game-play-area--two-rows .tube-item {
+  flex: 1 1 0;
+  min-width: 0;
+}
+.game-play-area--two-rows .tube-glass-body {
+  height: clamp(76px, 12dvh, 112px) !important;
+}
+@media (max-width: 520px) {
+  .game-play-area--two-rows {
+    gap: 20px !important;
+    padding: 20px 0 !important;
+  }
+  .game-play-area--two-rows .tube-glass-body {
+    height: clamp(68px, 10.5dvh, 94px) !important;
+  }
+}
+@media (max-height: 740px) {
+  .game-play-area--two-rows {
+    gap: 20px !important;
+    padding: 20px 0 !important;
+  }
+  .game-play-area--two-rows .tube-glass-body {
+    height: clamp(54px, 9dvh, 76px) !important;
+  }
+}
