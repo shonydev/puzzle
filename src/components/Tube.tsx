@@ -54,7 +54,7 @@ export const Tube: React.FC<TubeProps> = ({
   return (
     <div className="relative flex flex-col items-center">
       {/* Selection / Hint Indicator */}
-      <div className="h-6 flex items-center justify-center mb-1">
+      <div className="tube-indicator h-5 sm:h-6 flex items-center justify-center mb-0.5">
         {isSelected && (
           <span className="text-xs font-semibold px-2 py-0.5 rounded bg-sky-500 text-white shadow-sm animate-bounce">
             Elegido
@@ -111,13 +111,13 @@ export const Tube: React.FC<TubeProps> = ({
         />
 
         {/* Tube Lip (Rim) */}
-        <div className="w-[68px] sm:w-[74px] h-[8px] mx-auto rounded-t-sm bg-gradient-to-b from-white/90 via-slate-200/80 to-slate-300/90 dark:from-slate-600/90 dark:via-slate-700/80 dark:to-slate-800/90 border border-slate-300 dark:border-slate-600 shadow-xs relative z-20 flex items-center justify-between px-1">
+        <div className="w-[clamp(44px,11vw,68px)] sm:w-[74px] h-[7px] mx-auto rounded-t-sm bg-gradient-to-b from-white/90 via-slate-200/80 to-slate-300/90 dark:from-slate-600/90 dark:via-slate-700/80 dark:to-slate-800/90 border border-slate-300 dark:border-slate-600 shadow-xs relative z-20 flex items-center justify-between px-1">
           <div className="w-1.5 h-1 bg-white/70 rounded-full" />
           <div className="w-1.5 h-1 bg-white/70 rounded-full" />
         </div>
 
         {/* Main Glass Tube Body */}
-        <div className="w-[58px] sm:w-[64px] h-[190px] sm:h-[210px] mx-auto relative rounded-b-[28px] overflow-hidden bg-slate-900/5 dark:bg-slate-800/20 border-x-2 border-b-2 border-slate-300/80 dark:border-slate-600/70 shadow-inner backdrop-blur-[1px]">
+        <div className="w-[clamp(40px,9.5vw,58px)] sm:w-[64px] h-[clamp(108px,19dvh,190px)] sm:h-[min(210px,24dvh)] mx-auto relative rounded-b-[28px] overflow-hidden bg-slate-900/5 dark:bg-slate-800/20 border-x-2 border-b-2 border-slate-300/80 dark:border-slate-600/70 shadow-inner backdrop-blur-[1px]">
           {/* Glass Inner Rim Shadow */}
           <div className="absolute inset-x-0 top-0 h-4 bg-gradient-to-b from-black/15 to-transparent pointer-events-none z-10" />
 
@@ -186,11 +186,11 @@ export const Tube: React.FC<TubeProps> = ({
         </div>
 
         {/* Tube Base / Pedestal shadow */}
-        <div className="w-10 h-1.5 mx-auto bg-black/15 dark:bg-black/40 rounded-full blur-[2px] mt-1" />
+        <div className="w-8 h-1 mx-auto bg-black/15 dark:bg-black/40 rounded-full blur-[2px] mt-1" />
       </button>
 
       {/* Tube Number Label */}
-      <span className="text-[11px] font-medium text-slate-500 dark:text-slate-400 mt-1 tabular-nums">
+      <span className="text-[10px] font-medium text-slate-500 dark:text-slate-400 mt-0.5 tabular-nums">
         {index + 1}
       </span>
     </div>

@@ -329,7 +329,7 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-100 dark:bg-slate-950 text-slate-900 dark:text-slate-100 flex flex-col selection:bg-sky-500/30 selection:text-sky-900">
+    <div className="app-viewport bg-slate-100 dark:bg-slate-950 text-slate-900 dark:text-slate-100 flex flex-col selection:bg-sky-500/30 selection:text-sky-900">
       {/* Universal Top Bar (1 row, 3 zones) */}
       <TopBar
         onOpenLevels={() => setIsLevelSelectOpen(true)}
@@ -345,7 +345,7 @@ export default function App() {
       />
 
       {/* Main Game Arena */}
-      <main className="flex-1 flex flex-col justify-between max-w-5xl mx-auto w-full pb-8">
+      <main className="game-main flex-1 min-h-0 flex flex-col justify-between max-w-5xl mx-auto w-full pb-2">
         {/* Game HUD (Moves, Level Title, Controls) */}
         <GameHUD
           levelTitle={currentLevelData.name}
@@ -367,10 +367,10 @@ export default function App() {
         {/* Play Area: Tube Tray */}
         <section
           aria-label="Tablero de juego de tubos de ensayo"
-          className="my-auto py-6 sm:py-10 px-2 sm:px-6 flex flex-col items-center justify-center gap-6 sm:gap-10"
+          className="game-play-area flex-1 min-h-0 px-1 sm:px-6 flex flex-col items-center justify-center gap-2 sm:gap-6 overflow-hidden"
         >
           {/* Row 1 */}
-          <div className="flex flex-wrap items-end justify-center gap-3 sm:gap-6">
+          <div className="tube-row flex flex-nowrap items-end justify-center gap-x-[clamp(3px,1.5vw,12px)] gap-y-1 w-full">
             {topRow.map(({ tube, originalIdx }) => (
               <TubeComponent
                 key={`tube-${originalIdx}`}
@@ -391,7 +391,7 @@ export default function App() {
 
           {/* Row 2 (if > 6 tubes) */}
           {bottomRow.length > 0 && (
-            <div className="flex flex-wrap items-end justify-center gap-3 sm:gap-6 pt-2">
+            <div className="tube-row flex flex-nowrap items-end justify-center gap-x-[clamp(3px,1.5vw,12px)] gap-y-1 w-full pt-1">
               {bottomRow.map(({ tube, originalIdx }) => (
                 <TubeComponent
                   key={`tube-${originalIdx}`}
@@ -413,7 +413,7 @@ export default function App() {
         </section>
 
         {/* Subtle Tray / Bench Base Line */}
-        <div className="w-full max-w-2xl mx-auto px-4">
+        <div className="game-footer w-full max-w-2xl mx-auto px-4">
           <div className="h-1.5 w-full bg-slate-300/80 dark:bg-slate-800 rounded-full shadow-inner" />
           <div className="mt-3 flex items-center justify-center gap-6 text-xs text-slate-500 dark:text-slate-400">
             <span>Toca un tubo para levantarlo y otro para verter</span>
