@@ -1,0 +1,45 @@
+/* Keep the two-row board visually grouped and centered in the available play area. */
+.game-main {
+  justify-content: center;
+}
+
+.game-play-area--two-rows {
+  justify-content: center;
+  align-content: center;
+  gap: clamp(0.65rem, 2.2dvh, 1.1rem);
+  padding-top: clamp(0.75rem, 2.5dvh, 1.25rem);
+  padding-bottom: max(clamp(0.75rem, 2.5dvh, 1.25rem), env(safe-area-inset-bottom));
+}
+
+.game-play-area--two-rows .tube-row {
+  flex: 0 0 auto;
+  align-items: center;
+}
+
+.game-play-area--two-rows .tube-glass-body {
+  height: clamp(112px, 18dvh, 164px);
+}
+
+@media (max-width: 520px) {
+  .game-play-area--two-rows {
+    gap: clamp(0.6rem, 1.8dvh, 0.9rem);
+    padding-top: clamp(0.65rem, 2dvh, 1rem);
+    padding-bottom: max(clamp(0.65rem, 2dvh, 1rem), env(safe-area-inset-bottom));
+  }
+
+  .game-play-area--two-rows .tube-glass-body {
+    height: clamp(108px, 17dvh, 148px);
+  }
+}
+
+@media (max-height: 740px) {
+  .game-play-area--two-rows {
+    gap: clamp(0.5rem, 1.5dvh, 0.75rem);
+    padding-top: 0.5rem;
+    padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
+  }
+
+  .game-play-area--two-rows .tube-glass-body {
+    height: clamp(88px, 15dvh, 116px);
+  }
+}
