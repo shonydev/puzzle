@@ -2414,6 +2414,8 @@ body {
   pointer-events: none;
 }
 .tube-indicator:empty { display: none; }
+.tube-indicator span { font-size: 0.65rem; line-height: 1rem; }
+.tube-item--lifted .tube-indicator { bottom: calc(100% + var(--tube-h) * 0.14 + 0.2rem); }
 @media (max-width: 520px) {
   .game-play-area { padding-left: 4px; padding-right: 4px; }
   .tube-row { gap: 4px; }
