@@ -24,6 +24,7 @@ import {
   getPourAmount,
 } from './game/engine.ts';
 import { sound } from './game/audio.ts';
+import { rowSizes, useBoardLayout } from './game/boardLayout.ts';
 import {
   loadUserProgress,
   saveUserProgress,
@@ -39,6 +40,7 @@ export default function App() {
   const [tubes, setTubes] = useState<Tube[]>(() =>
     currentLevelData.tubes.map((t) => [...t])
   );
+  const { ref: boardRef, layout: boardLayout } = useBoardLayout<HTMLElement>(tubes.length);
   const [history, setHistory] = useState<Tube[][]>([]);
   const [moves, setMoves] = useState<number>(0);
   const [extraTubesUsed, setExtraTubesUsed] = useState<number>(0);
@@ -314,20 +316,33 @@ export default function App() {
   const possibleMoves = isWon ? [] : getValidMoves(tubes, 4);
   const isStalemate = !isWon && possibleMoves.length === 0;
 
-  // Distribute tubes evenly across rows, with no more than six tubes per row.
+  // Balance rows using the measured available space, maximizing tube size.
   const totalTubes = tubes.length;
-  const rowCount = Math.max(1, Math.ceil(totalTubes / 6));
-  const tubesPerRow = Math.ceil(totalTubes / rowCount);
+  const sizes = rowSizes(totalTubes, boardLayout?.rows ?? Math.ceil(totalTubes / 6));
   const tubeRows: { tube: Tube; originalIdx: number }[][] = [];
-  for (let start = 0; start < totalTubes; start += tubesPerRow) {
+  let cursor = 0;
+  for (const size of sizes) {
     tubeRows.push(
-      tubes.slice(start, start + tubesPerRow).map((tube, offset) => ({
+      tubes.slice(cursor, cursor + size).map((tube, offset) => ({
         tube,
-        originalIdx: start + offset,
+        originalIdx: cursor + offset,
       }))
     );
+    cursor += size;
   }
-  const isMultiRow = tubeRows.length > 1;
+  const boardStyle = (
+    boardLayout
+      ? {
+          '--tube-w': `${boardLayout.tubeW}px`,
+          '--tube-h': `${boardLayout.tubeH}px`,
+          '--cell-w': `${boardLayout.cellW}px`,
+          '--board-gap-x': `${boardLayout.gapX}px`,
+          '--board-gap-y': `${boardLayout.gapY}px`,
+          '--board-pad-x': `${boardLayout.padX}px`,
+          '--board-pad-y': `${boardLayout.padY}px`,
+        }
+      : {}
+  ) as React.CSSProperties;
 
   return (
     <div className="app-viewport bg-slate-100 dark:bg-slate-950 text-slate-900 dark:text-slate-100 flex flex-col selection:bg-sky-500/30 selection:text-sky-900">
@@ -371,8 +386,10 @@ export default function App() {
       <main className="game-main flex-1 min-h-0 flex flex-col justify-between max-w-5xl mx-auto w-full pb-2">
         {/* Play Area: Tube Tray */}
         <section
+          ref={boardRef}
           aria-label="Tablero de juego de tubos de ensayo"
-          className={`game-play-area flex-1 min-h-0 px-1 sm:px-6 flex flex-col items-center justify-center overflow-hidden ${isMultiRow ? "game-play-area--two-rows" : "game-play-area--one-row"}`}
+          className="game-play-area"
+          style={boardStyle}
         >
           {tubeRows.map((row, rowIndex) => (
             <div className="tube-row flex flex-nowrap items-end justify-center w-full" key={`tube-row-${rowIndex}`}>
