@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import './board-layout-fix.css';
 import { MoreHorizontal, X } from 'lucide-react';
 import { TopBar } from './components/TopBar.tsx';
 import { GameHUD } from './components/GameHUD.tsx';
@@ -315,21 +314,20 @@ export default function App() {
   const possibleMoves = isWon ? [] : getValidMoves(tubes, 4);
   const isStalemate = !isWon && possibleMoves.length === 0;
 
-  // Split tubes into 1 or 2 rows for optimal presentation
+  // Distribute tubes evenly across rows, with no more than six tubes per row.
   const totalTubes = tubes.length;
-  let topRow: { tube: Tube; originalIdx: number }[] = [];
-  let bottomRow: { tube: Tube; originalIdx: number }[] = [];
-
-  if (totalTubes <= 6) {
-    topRow = tubes.map((tube, idx) => ({ tube, originalIdx: idx }));
-  } else {
-    const half = Math.ceil(totalTubes / 2);
-    topRow = tubes.slice(0, half).map((tube, idx) => ({ tube, originalIdx: idx }));
-    bottomRow = tubes.slice(half).map((tube, idx) => ({
-      tube,
-      originalIdx: idx + half,
-    }));
+  const rowCount = Math.max(1, Math.ceil(totalTubes / 6));
+  const tubesPerRow = Math.ceil(totalTubes / rowCount);
+  const tubeRows: { tube: Tube; originalIdx: number }[][] = [];
+  for (let start = 0; start < totalTubes; start += tubesPerRow) {
+    tubeRows.push(
+      tubes.slice(start, start + tubesPerRow).map((tube, offset) => ({
+        tube,
+        originalIdx: start + offset,
+      }))
+    );
   }
+  const isMultiRow = tubeRows.length > 1;
 
   return (
     <div className="app-viewport bg-slate-100 dark:bg-slate-950 text-slate-900 dark:text-slate-100 flex flex-col selection:bg-sky-500/30 selection:text-sky-900">
@@ -374,32 +372,11 @@ export default function App() {
         {/* Play Area: Tube Tray */}
         <section
           aria-label="Tablero de juego de tubos de ensayo"
-          className={`game-play-area flex-1 min-h-0 px-1 sm:px-6 flex flex-col items-center justify-center gap-2 sm:gap-6 overflow-hidden ${bottomRow.length > 0 ? "game-play-area--two-rows" : "game-play-area--one-row"}`}
+          className={`game-play-area flex-1 min-h-0 px-1 sm:px-6 flex flex-col items-center justify-center overflow-hidden ${isMultiRow ? "game-play-area--two-rows" : "game-play-area--one-row"}`}
         >
-          {/* Row 1 */}
-          <div className="tube-row flex flex-nowrap items-end justify-center gap-x-[clamp(3px,1.5vw,12px)] gap-y-1 w-full">
-            {topRow.map(({ tube, originalIdx }) => (
-              <TubeComponent
-                key={`tube-${originalIdx}`}
-                index={originalIdx}
-                colors={tube}
-                isSelected={selectedIndex === originalIdx}
-                isHintSource={hintSource === originalIdx}
-                isHintTarget={hintTarget === originalIdx}
-                isPouringSource={isPouring && pourSource === originalIdx}
-                tiltAngle={tiltAngle}
-                tiltDirection={tiltDirection}
-                symbolMode={symbolMode}
-                onClick={() => handleTubeClick(originalIdx)}
-                disabled={isPouring}
-              />
-            ))}
-          </div>
-
-          {/* Row 2 (if > 6 tubes) */}
-          {bottomRow.length > 0 && (
-            <div className="tube-row flex flex-nowrap items-end justify-center gap-x-[clamp(3px,1.5vw,12px)] gap-y-1 w-full pt-1">
-              {bottomRow.map(({ tube, originalIdx }) => (
+          {tubeRows.map((row, rowIndex) => (
+            <div className="tube-row flex flex-nowrap items-end justify-center w-full" key={`tube-row-${rowIndex}`}>
+              {row.map(({ tube, originalIdx }) => (
                 <TubeComponent
                   key={`tube-${originalIdx}`}
                   index={originalIdx}
@@ -416,9 +393,8 @@ export default function App() {
                 />
               ))}
             </div>
-          )}
+          ))}
         </section>
-
 
       </main>
 
