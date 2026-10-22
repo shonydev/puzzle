@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import './board-layout-fix.css';
 import { MoreHorizontal, X } from 'lucide-react';
 import { TopBar } from './components/TopBar.tsx';
 import { GameHUD } from './components/GameHUD.tsx';
