@@ -2450,3 +2450,10 @@ html, body, #root {
   .game-play-area--one-row { --tube-height: clamp(72px, 17dvh, 120px); }
   .game-play-area { gap: 0.35rem; }
 }
+
+.tube-item > button {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}
