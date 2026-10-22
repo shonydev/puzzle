@@ -373,7 +373,7 @@ export default function App() {
         {/* Play Area: Tube Tray */}
         <section
           aria-label="Tablero de juego de tubos de ensayo"
-          className="game-play-area flex-1 min-h-0 px-1 sm:px-6 flex flex-col items-center justify-center gap-2 sm:gap-6 overflow-hidden"
+          className={`game-play-area flex-1 min-h-0 px-1 sm:px-6 flex flex-col items-center justify-center gap-2 sm:gap-6 overflow-hidden ${bottomRow.length > 0 ? "game-play-area--two-rows" : "game-play-area--one-row"}`}
         >
           {/* Row 1 */}
           <div className="tube-row flex flex-nowrap items-end justify-center gap-x-[clamp(3px,1.5vw,12px)] gap-y-1 w-full">
