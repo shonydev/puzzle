@@ -52,9 +52,9 @@ export const Tube: React.FC<TubeProps> = ({
   const unitHeightPercent = 100 / capacity;
 
   return (
-    <div className="relative flex flex-col items-center">
+    <div className="tube-item relative flex flex-col items-center">
       {/* Selection / Hint Indicator */}
-      <div className="tube-indicator h-5 sm:h-6 flex items-center justify-center mb-0.5">
+      <div className="tube-indicator flex items-center justify-center">
         {isSelected && (
           <span className="text-xs font-semibold px-2 py-0.5 rounded bg-sky-500 text-white shadow-sm animate-bounce">
             Elegido
@@ -111,13 +111,13 @@ export const Tube: React.FC<TubeProps> = ({
         />
 
         {/* Tube Lip (Rim) */}
-        <div className="w-[clamp(44px,11vw,68px)] sm:w-[74px] h-[7px] mx-auto rounded-t-sm bg-gradient-to-b from-white/90 via-slate-200/80 to-slate-300/90 dark:from-slate-600/90 dark:via-slate-700/80 dark:to-slate-800/90 border border-slate-300 dark:border-slate-600 shadow-xs relative z-20 flex items-center justify-between px-1">
+        <div className="tube-lip w-[clamp(44px,11vw,68px)] sm:w-[74px] h-[7px] mx-auto rounded-t-sm bg-gradient-to-b from-white/90 via-slate-200/80 to-slate-300/90 dark:from-slate-600/90 dark:via-slate-700/80 dark:to-slate-800/90 border border-slate-300 dark:border-slate-600 shadow-xs relative z-20 flex items-center justify-between px-1">
           <div className="w-1.5 h-1 bg-white/70 rounded-full" />
           <div className="w-1.5 h-1 bg-white/70 rounded-full" />
         </div>
 
         {/* Main Glass Tube Body */}
-        <div className="w-[clamp(40px,9.5vw,58px)] sm:w-[64px] h-[clamp(108px,19dvh,190px)] sm:h-[min(210px,24dvh)] mx-auto relative rounded-b-[28px] overflow-hidden bg-slate-900/5 dark:bg-slate-800/20 border-x-2 border-b-2 border-slate-300/80 dark:border-slate-600/70 shadow-inner backdrop-blur-[1px]">
+        <div className="tube-glass-body w-[clamp(40px,9.5vw,58px)] sm:w-[64px] h-[clamp(108px,19dvh,190px)] sm:h-[min(210px,24dvh)] mx-auto relative rounded-b-[28px] overflow-hidden bg-slate-900/5 dark:bg-slate-800/20 border-x-2 border-b-2 border-slate-300/80 dark:border-slate-600/70 shadow-inner backdrop-blur-[1px]">
           {/* Glass Inner Rim Shadow */}
           <div className="absolute inset-x-0 top-0 h-4 bg-gradient-to-b from-black/15 to-transparent pointer-events-none z-10" />
 
