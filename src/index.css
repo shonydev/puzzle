@@ -2457,3 +2457,55 @@ html, body, #root {
   max-width: 100%;
   min-width: 0;
 }
+
+
+/* Vertical composition pass: give the two-row board the height it was missing. */
+.game-main {
+  justify-content: stretch;
+}
+.game-play-area--two-rows {
+  justify-content: space-between;
+  padding-top: clamp(1.25rem, 5dvh, 3.25rem);
+  padding-bottom: clamp(1.25rem, 5dvh, 3.25rem);
+  gap: clamp(1.5rem, 6dvh, 3.5rem);
+}
+.game-play-area--two-rows .tube-row {
+  flex: 0 0 auto;
+  align-items: center;
+  gap: clamp(2px, 0.7vw, 6px);
+}
+.game-play-area--two-rows .tube-item {
+  flex: 1 1 0;
+  min-width: 0;
+}
+.game-play-area--two-rows .tube-lip {
+  width: min(100%, 3.35rem);
+}
+.game-play-area--two-rows .tube-glass-body {
+  width: min(100%, 3.05rem);
+  height: clamp(118px, 19.5dvh, 178px);
+}
+@media (max-width: 520px) {
+  .game-play-area--two-rows {
+    padding-top: clamp(1rem, 3.5dvh, 2rem);
+    padding-bottom: clamp(1rem, 3.5dvh, 2rem);
+    gap: clamp(1.5rem, 5dvh, 2.75rem);
+  }
+  .game-play-area--two-rows .tube-lip {
+    width: min(100%, 3rem);
+  }
+  .game-play-area--two-rows .tube-glass-body {
+    width: min(100%, 2.8rem);
+    height: clamp(116px, 19dvh, 164px);
+  }
+}
+@media (max-height: 740px) {
+  .game-play-area--two-rows {
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    gap: clamp(0.75rem, 3dvh, 1.5rem);
+  }
+  .game-play-area--two-rows .tube-glass-body {
+    height: clamp(96px, 17dvh, 132px);
+  }
+}
