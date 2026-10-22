@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { MoreHorizontal, X } from 'lucide-react';
 import { TopBar } from './components/TopBar.tsx';
 import { GameHUD } from './components/GameHUD.tsx';
 import { Tube as TubeComponent } from './components/Tube.tsx';
@@ -60,6 +61,7 @@ export default function App() {
   const [isHelpModalOpen, setIsHelpModalOpen] = useState(false);
   const [isDownloadModalOpen, setIsDownloadModalOpen] = useState(false);
   const [isWinModalOpen, setIsWinModalOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [winStats, setWinStats] = useState({ moves: 0, targetMoves: 0, stars: 3 });
 
   // Settings
@@ -330,40 +332,44 @@ export default function App() {
 
   return (
     <div className="app-viewport bg-slate-100 dark:bg-slate-950 text-slate-900 dark:text-slate-100 flex flex-col selection:bg-sky-500/30 selection:text-sky-900">
-      {/* Universal Top Bar (1 row, 3 zones) */}
-      <TopBar
-        onOpenLevels={() => setIsLevelSelectOpen(true)}
-        onOpenDaily={handleStartDaily}
-        onOpenCustom={() => setIsCustomModalOpen(true)}
-        onOpenHelp={() => setIsHelpModalOpen(true)}
-        onOpenDownload={() => setIsDownloadModalOpen(true)}
-        soundEnabled={soundEnabled}
-        onToggleSound={handleToggleSound}
-        symbolMode={symbolMode}
-        onToggleSymbols={handleToggleSymbols}
-        currentLevelName={currentLevelData.name}
-      />
+      <header className="game-topbar flex items-center justify-between px-4 shrink-0">
+        <span className="font-bold tracking-tight text-slate-900 dark:text-white text-lg">AquaSort</span>
+        <button type="button" onClick={() => setIsMenuOpen((open) => !open)} className="game-menu-trigger" aria-label="Menú del juego" aria-expanded={isMenuOpen}>
+          {isMenuOpen ? <X size={24} /> : <MoreHorizontal size={26} />}
+        </button>
+      </header>
+
+      {isMenuOpen && (
+        <div className="game-menu-backdrop" onClick={() => setIsMenuOpen(false)}>
+          <section className="game-menu-panel" role="dialog" aria-modal="true" aria-label="Menú del juego" onClick={(event) => event.stopPropagation()}>
+            <div className="flex items-center justify-between px-4 py-3 border-b border-slate-200 dark:border-slate-700">
+              <strong>Menú del juego</strong>
+              <button type="button" onClick={() => setIsMenuOpen(false)} aria-label="Cerrar menú"><X size={20} /></button>
+            </div>
+            <div className="game-menu-links">
+              <button onClick={() => { setIsLevelSelectOpen(true); setIsMenuOpen(false); }}>Elegir nivel</button>
+              <button onClick={() => { handleStartDaily(); setIsMenuOpen(false); }}>Desafío diario</button>
+              <button onClick={() => { setIsCustomModalOpen(true); setIsMenuOpen(false); }}>Partida libre</button>
+              <button onClick={() => { handleToggleSound(); }}>Sonido: {soundEnabled ? 'activado' : 'desactivado'}</button>
+              <button onClick={() => { handleToggleSymbols(); }}>Alternar símbolos</button>
+              <button onClick={() => { setIsHelpModalOpen(true); setIsMenuOpen(false); }}>Cómo jugar</button>
+              <button onClick={() => { setIsDownloadModalOpen(true); setIsMenuOpen(false); }}>Instalar / Descargar</button>
+            </div>
+            <div className="game-menu-stats">
+              <div><strong>{currentLevelData.name}</strong><span>{currentLevelData.colorCount} colores · {currentLevelData.emptyCount + extraTubesUsed} tubos libres</span><span>Movimientos: {moves} / objetivo ~{currentLevelData.targetMoves}</span></div>
+              <div className="game-menu-actions">
+                <button disabled={history.length === 0 || isPouring} onClick={() => { handleUndo(); setIsMenuOpen(false); }}>Deshacer</button>
+                <button onClick={() => { handleReset(); setIsMenuOpen(false); }}>Reiniciar</button>
+                <button disabled={isSolvingHint} onClick={() => { handleHint(); setIsMenuOpen(false); }}>Pista</button>
+                <button disabled={extraTubesUsed >= 2} onClick={() => { handleAddTube(); setIsMenuOpen(false); }}>+1 tubo</button>
+              </div>
+            </div>
+          </section>
+        </div>
+      )}
 
       {/* Main Game Arena */}
       <main className="game-main flex-1 min-h-0 flex flex-col justify-between max-w-5xl mx-auto w-full pb-2">
-        {/* Game HUD (Moves, Level Title, Controls) */}
-        <GameHUD
-          levelTitle={currentLevelData.name}
-          difficulty={currentLevelData.difficulty}
-          colorCount={currentLevelData.colorCount}
-          emptyCount={currentLevelData.emptyCount}
-          moves={moves}
-          targetMoves={currentLevelData.targetMoves}
-          canUndo={history.length > 0 && !isPouring}
-          isStalemate={isStalemate}
-          onUndo={handleUndo}
-          onReset={handleReset}
-          onHint={handleHint}
-          onAddTube={handleAddTube}
-          isSolvingHint={isSolvingHint}
-          extraTubesUsed={extraTubesUsed}
-        />
-
         {/* Play Area: Tube Tray */}
         <section
           aria-label="Tablero de juego de tubos de ensayo"
@@ -412,15 +418,7 @@ export default function App() {
           )}
         </section>
 
-        {/* Subtle Tray / Bench Base Line */}
-        <div className="game-footer w-full max-w-2xl mx-auto px-4">
-          <div className="h-1.5 w-full bg-slate-300/80 dark:bg-slate-800 rounded-full shadow-inner" />
-          <div className="mt-3 flex items-center justify-center gap-6 text-xs text-slate-500 dark:text-slate-400">
-            <span>Toca un tubo para levantarlo y otro para verter</span>
-            <span aria-hidden="true">·</span>
-            <span>Usa Pista si necesitas orientación</span>
-          </div>
-        </div>
+
       </main>
 
       {/* Modals */}

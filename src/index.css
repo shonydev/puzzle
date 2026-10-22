@@ -2286,3 +2286,52 @@ body {
     padding-right: 0.15rem;
   }
 }
+
+
+/* Game-first mobile layout: keep the board as the primary screen. */
+.game-topbar {
+  min-height: 3.5rem;
+  padding-top: env(safe-area-inset-top);
+  border-bottom: 1px solid rgb(226 232 240);
+  background: rgb(255 255 255 / 0.96);
+}
+.dark .game-topbar { border-color: rgb(30 41 59); background: rgb(15 23 42 / 0.96); }
+.game-menu-trigger {
+  display: grid; place-items: center; width: 2.75rem; height: 2.75rem;
+  border: 1px solid rgb(203 213 225); border-radius: 0.9rem; background: white;
+  color: rgb(51 65 85); touch-action: manipulation;
+}
+.dark .game-menu-trigger { background: rgb(30 41 59); border-color: rgb(71 85 105); color: white; }
+.game-menu-backdrop {
+  position: fixed; inset: 0; z-index: 80; display: flex; justify-content: flex-end;
+  background: rgb(15 23 42 / 0.38); padding: max(env(safe-area-inset-top), 0.5rem) 0.75rem max(env(safe-area-inset-bottom), 0.5rem);
+}
+.game-menu-panel {
+  width: min(100%, 26rem); max-height: 100%; overflow-y: auto; align-self: flex-start;
+  border-radius: 1.1rem; background: white; color: rgb(15 23 42);
+  box-shadow: 0 20px 60px rgb(15 23 42 / 0.25);
+}
+.dark .game-menu-panel { background: rgb(15 23 42); color: rgb(241 245 249); }
+.game-menu-links { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.5rem; padding: 0.75rem; }
+.game-menu-links button, .game-menu-actions button {
+  min-height: 2.75rem; padding: 0.6rem 0.75rem; border: 1px solid rgb(226 232 240);
+  border-radius: 0.7rem; text-align: left; font-size: 0.9rem; background: rgb(248 250 252);
+}
+.dark .game-menu-links button, .dark .game-menu-actions button { background: rgb(30 41 59); border-color: rgb(51 65 85); }
+.game-menu-stats { padding: 0.75rem; border-top: 1px solid rgb(226 232 240); }
+.dark .game-menu-stats { border-color: rgb(51 65 85); }
+.game-menu-stats > div:first-child { display: flex; flex-direction: column; gap: 0.25rem; font-size: 0.85rem; color: rgb(100 116 139); }
+.game-menu-stats strong { color: rgb(15 23 42); font-size: 1rem; }
+.dark .game-menu-stats strong { color: white; }
+.game-menu-actions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.5rem; margin-top: 0.75rem; }
+.game-menu-actions button:disabled { opacity: 0.4; }
+.game-main { justify-content: center; padding-top: 0.5rem; padding-bottom: max(0.5rem, env(safe-area-inset-bottom)); }
+.game-play-area { flex: 1 1 auto; justify-content: center; gap: clamp(1rem, 5dvh, 3rem); }
+.tube-row { align-items: center; }
+.game-footer { display: none; }
+.app-viewport > header.game-topbar > span { flex: 1; }
+@media (max-width: 520px) {
+  .game-topbar { min-height: 3.25rem; padding-left: 1rem; padding-right: 1rem; }
+  .game-main { padding-left: 0; padding-right: 0; }
+  .game-play-area { padding-left: 0.25rem; padding-right: 0.25rem; }
+}
